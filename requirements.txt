@@ -1,0 +1,14 @@
+# Password Manager Dependencies
+
+# Interface utilisateur
+customtkinter>=5.2.0
+pillow>=10.0.0
+
+# Base de données et chiffrement
+cryptography>=41.0.0
+
+# Presse-papiers
+pyperclip>=1.8.0
+
+# Utilitaires
+pathlib2>=2.3.7; python_version < '3.4'
