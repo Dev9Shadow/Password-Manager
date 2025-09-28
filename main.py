@@ -7,7 +7,7 @@ import sys
 import os
 from pathlib import Path
 import customtkinter as ctk
-import tkinter.font as font
+import tkinter.font as font 
 
 # Configuration CustomTkinter moderne
 ctk.set_appearance_mode("dark")

@@ -3,14 +3,14 @@ Dialog pour ajouter un nouveau compte
 """
 
 import tkinter as tk
-from tkinter import Toplevel, Label, Canvas, PhotoImage
-from PIL import ImageTk, Image
-from customtkinter import CTkButton
+from tkinter import Toplevel, Label, Canvas
+import customtkinter as ctk
+from customtkinter import CTkButton, CTkEntry, CTkLabel, CTkFrame
 
-from config.settings import COLORS, WINDOW_CONFIG, IMAGES_DIR
+from config.settings import COLORS, WINDOW_CONFIG
 from utils.geometry import GeometryUtils
 from utils.validators import Validator
-from gui.widgets.custom_widgets import CustomEntry, show_error
+from gui.widgets.custom_widgets import show_error
 from core.password_generator import PasswordGenerator
 
 class AddAccountDialog:
@@ -32,136 +32,131 @@ class AddAccountDialog:
     
     def _create_dialog(self):
         """Créer la fenêtre de dialogue moderne"""
-        from customtkinter import set_appearance_mode, set_default_color_theme
+        ctk.set_appearance_mode("dark")
         
-        # Mode sombre par défaut
-        set_appearance_mode("dark")
-        
-        self.dialog = Toplevel(self.parent)
-        self.dialog.configure(bg=COLORS['primary_bg'])
+        self.dialog = ctk.CTkToplevel(self.parent)
+        self.dialog.configure(fg_color=COLORS['primary_bg'])
         
         config = WINDOW_CONFIG['add_account']
-        GeometryUtils.apply_window_config(self.dialog, config)
+        self.dialog.title(config['title'])
+        self.dialog.geometry(GeometryUtils.center_window(
+            self.dialog, config['width'], config['height']
+        ))
+        self.dialog.minsize(config['width'], config['height'])
+        self.dialog.maxsize(config['width'], config['height'])
+        self.dialog.resizable(*config['resizable'])
         
         # Masquer la fenêtre parent
         self.parent.withdraw()
     
     def _setup_ui(self):
-        """Configurer l'interface utilisateur"""
-        self._create_site_field()
-        self._create_login_field()
-        self._create_password_field()
-        self._create_buttons()
-    
-    def _setup_ui(self):
         """Configurer l'interface moderne"""
-        from gui.widgets.custom_widgets import ModernCard, ModernLabel, ModernEntry, ModernButton
-        
-        # Card principale
-        main_card = ModernCard(self.dialog)
-        main_card.place(x=25, y=25, width=300, height=450)
+        # Card principale avec width/height dans le constructeur
+        main_card = CTkFrame(
+            self.dialog,
+            width=300,
+            height=450,
+            fg_color=COLORS['card_bg'],
+            corner_radius=15
+        )
+        main_card.place(x=25, y=25)
         
         # Titre
-        title = ModernLabel(main_card, text="✨ Nouveau Compte", style="title")
+        title = CTkLabel(
+            main_card,
+            text="✨ Nouveau Compte",
+            font=ctk.CTkFont(family="Segoe UI", size=18, weight="bold"),
+            text_color=COLORS['text_primary']
+        )
         title.place(x=20, y=20)
         
         # Site Web
-        ModernLabel(main_card, text="🌐 Site Web", style="subtitle").place(x=20, y=80)
-        self.site_entry = ModernEntry(main_card, placeholder_text="ex: google.com")
-        self.site_entry.place(x=20, y=110, width=260)
+        CTkLabel(
+            main_card,
+            text="🌐 Site Web",
+            font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
+            text_color=COLORS['text_accent']
+        ).place(x=20, y=80)
+        
+        self.site_entry = CTkEntry(
+            main_card,
+            width=260,
+            placeholder_text="ex: google.com",
+            fg_color=COLORS['input_bg'],
+            border_color=COLORS['input_border'],
+            text_color=COLORS['input_text']
+        )
+        self.site_entry.place(x=20, y=110)
         
         # Username  
-        ModernLabel(main_card, text="👤 Nom d'utilisateur", style="subtitle").place(x=20, y=160)
-        self.login_entry = ModernEntry(main_card, placeholder_text="Votre nom d'utilisateur")
-        self.login_entry.place(x=20, y=190, width=260)
+        CTkLabel(
+            main_card,
+            text="👤 Nom d'utilisateur",
+            font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
+            text_color=COLORS['text_accent']
+        ).place(x=20, y=160)
+        
+        self.login_entry = CTkEntry(
+            main_card,
+            width=260,
+            placeholder_text="Votre nom d'utilisateur",
+            fg_color=COLORS['input_bg'],
+            border_color=COLORS['input_border'],
+            text_color=COLORS['input_text']
+        )
+        self.login_entry.place(x=20, y=190)
         
         # Password
-        ModernLabel(main_card, text="🔐 Mot de passe", style="subtitle").place(x=20, y=240)
-        self.password_entry = ModernEntry(main_card, placeholder_text="Mot de passe sécurisé", show="*")
-        self.password_entry.place(x=20, y=270, width=220)
+        CTkLabel(
+            main_card,
+            text="🔒 Mot de passe",
+            font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
+            text_color=COLORS['text_accent']
+        ).place(x=20, y=240)
+        
+        self.password_entry = CTkEntry(
+            main_card,
+            width=220,
+            placeholder_text="Mot de passe sécurisé",
+            show="*",
+            fg_color=COLORS['input_bg'],
+            border_color=COLORS['input_border'],
+            text_color=COLORS['input_text']
+        )
+        self.password_entry.place(x=20, y=270)
         
         # Bouton générateur
-        gen_btn = ModernButton(
+        gen_btn = CTkButton(
             main_card,
             text="🎲",
             command=self._generate_password,
             width=30,
             height=35,
-            style="secondary"
+            fg_color=COLORS['button_secondary'],
+            hover_color=COLORS['button_primary']
         )
         gen_btn.place(x=250, y=270)
         
         # Boutons d'action
-        save_btn = ModernButton(
+        save_btn = CTkButton(
             main_card,
             text="💾 Sauvegarder",
             command=self._on_save,
-            style="success",
+            fg_color=COLORS['button_success'],
+            hover_color="#40c057",
             width=120
         )
         save_btn.place(x=20, y=380)
         
-        cancel_btn = ModernButton(
+        cancel_btn = CTkButton(
             main_card,
             text="❌ Annuler", 
             command=self._on_back,
-            style="danger",
+            fg_color=COLORS['button_danger'],
+            hover_color="#ff5252",
             width=120
         )
         cancel_btn.place(x=160, y=380)
-    
-    def _create_buttons(self):
-        """Créer les boutons d'action"""
-        # Bouton retour
-        try:
-            back_icon = PhotoImage(file=IMAGES_DIR / "icon" / "back_icon.png")
-            back_btn = CTkButton(
-                self.dialog,
-                text='',
-                image=back_icon,
-                command=self._on_back,
-                width=24,
-                height=24,
-                fg_color=COLORS['primary_bg'],
-                hover_color=COLORS['primary_bg']
-            )
-            back_btn.place(x=5, y=5)
-        except Exception as e:
-            print(f"Impossible de charger l'icône de retour : {e}")
-        
-        # Bouton sauvegarder
-        save_btn = CTkButton(
-            self.dialog,
-            text="Save Account",
-            command=self._on_save,
-            width=165,
-            text_color=COLORS['text_primary'],
-            fg_color=COLORS['button_primary'],
-            hover_color=COLORS['button_hover'],
-            font=("Arial", 10, "bold"),
-            corner_radius=20,
-            border_color="black",
-            border_width=1
-        )
-        save_btn.place(x=95, y=380)
-    
-    def _add_icon(self, icon_name: str, x: int, y: int):
-        """
-        Ajouter une icône à la position spécifiée
-        
-        Args:
-            icon_name: Nom du fichier d'icône
-            x, y: Position de l'icône
-        """
-        try:
-            icon_path = IMAGES_DIR / "icon" / icon_name
-            if icon_path.exists():
-                icon = ImageTk.PhotoImage(Image.open(icon_path))
-                icon_label = Label(self.dialog, image=icon, bg=COLORS['primary_bg'])
-                icon_label.image = icon  # Garde une référence
-                icon_label.place(x=x, y=y)
-        except Exception as e:
-            print(f"Impossible de charger l'icône {icon_name}: {e}")
     
     def _generate_password(self):
         """Générer un mot de passe aléatoire"""

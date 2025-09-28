@@ -35,10 +35,10 @@ class MessageDialog:
         )
         msg_label.pack(pady=20)
         
-        # Ligne décorative
+        # Ligne décorative - CORRIGÉ
         line = Canvas(
             self.dialog, 
-            bg=COLORS['accent'], 
+            bg=COLORS['text_accent'],  # Changé de 'accent' à 'text_accent'
             width=400, 
             height=20, 
             highlightthickness=0
@@ -53,7 +53,7 @@ class MessageDialog:
             width=100,
             text_color='black',
             bg_color="white",
-            fg_color=COLORS['accent'],
+            fg_color=COLORS['text_accent'],  # Changé de 'accent' à 'text_accent'
             font=('yu gothic ui', 12, 'bold'),
             border_width=1,
             border_color='black',
@@ -70,7 +70,7 @@ class MessageDialog:
                 width=100,
                 text_color='black',
                 bg_color="white",
-                fg_color=COLORS['accent'],
+                fg_color=COLORS['text_accent'],  # Changé de 'accent' à 'text_accent'
                 font=('yu gothic ui', 12, 'bold'),
                 border_width=1,
                 border_color='black',

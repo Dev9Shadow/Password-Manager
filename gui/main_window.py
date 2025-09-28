@@ -251,7 +251,34 @@ class PasswordManagerApp:
             show_error(self.root, "Veuillez sélectionner un compte à modifier")
             return
         
-        print(f"Édition du compte : {selected_data}")  # Placeholder
+        # Récupérer les vraies données depuis la base de données (non masquées)
+        try:
+            account_id = selected_data[3]
+            accounts = self.db_manager.get_all_accounts()
+            account = next((acc for acc in accounts if acc[3] == int(account_id)), None)
+            
+            if account:
+                # Ouvrir le dialogue d'édition avec les vraies données
+                from gui.dialogs.edit_account import EditAccountDialog
+                dialog = EditAccountDialog(self.root, account, self._on_account_edited)
+                dialog.show()
+            else:
+                show_error(self.root, "Compte introuvable")
+                
+        except Exception as e:
+            print(f"Erreur lors de l'ouverture du dialogue d'édition : {e}")
+            show_error(self.root, "Erreur lors de l'ouverture du dialogue d'édition")
+
+    def _on_account_edited(self, account_id: int, site: str, login: str, password: str):
+        """Callback appelé quand un compte est modifié"""
+        try:
+            self.db_manager.update_account(account_id, site, login, password)
+            if self.account_table:
+                self.account_table.update_account(str(account_id), site, login, password)
+            show_success(self.root, "Le compte a été modifié avec succès")
+        except Exception as e:
+            print(f"Erreur lors de la modification : {e}")
+            show_error(self.root, "Erreur lors de la modification du compte")
 
     def _view_account_data(self, account_data):
         """Afficher les données d'un compte"""
@@ -263,7 +290,47 @@ class PasswordManagerApp:
 
     def _search_accounts(self):
         """Fonction de recherche"""
-        print("Recherche de comptes")  # Placeholder
+        try:
+            from gui.dialogs.search_accounts import SearchAccountsDialog
+            dialog = SearchAccountsDialog(self.root, self._on_search_results)
+            dialog.show()
+        except Exception as e:
+            print(f"Erreur lors de l'ouverture de la recherche : {e}")
+            
+    def _on_search_results(self, filtered_accounts, search_term):
+        """Callback appelé avec les résultats de recherche"""
+        try:
+            if self.account_table:
+                self.account_table.load_accounts(filtered_accounts)
+                
+                # Mettre à jour le statut
+                if search_term:
+                    result_count = len(filtered_accounts)
+                    if result_count == 0:
+                        self._update_search_status(f"Aucun résultat pour '{search_term}'")
+                        show_error(self.root, f"Aucun résultat trouvé pour '{search_term}'")
+                    else:
+                        self._update_search_status(f"{result_count} résultat(s) pour '{search_term}'")
+                else:
+                    self._update_search_status("")
+                    
+        except Exception as e:
+            print(f"Erreur lors de l'affichage des résultats : {e}")
+    
+    def _create_search_status_label(self):
+        """Créer un label pour afficher le statut de recherche"""
+        self.search_status_label = ctk.CTkLabel(
+            self.main_panel,
+            text="",
+            font=ctk.CTkFont(family="Segoe UI", size=10),
+            text_color=COLORS['text_secondary']
+        )
+        self.search_status_label.place(x=30, y=75)
+
+    def _update_search_status(self, message):
+        """Mettre à jour le statut de recherche"""
+        if hasattr(self, 'search_status_label'):
+            self.search_status_label.configure(text=message)
     
     def run(self):
         """Lancer l'application"""
