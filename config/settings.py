@@ -39,9 +39,21 @@ WINDOW_CONFIG = {
         'resizable': (False, False)
     },
     'master_password': {
-        'width': 350,
-        'height': 500,
+        'width': 450,
+        'height': 350,
         'title': 'Settings - Master Password',
+        'resizable': (False, False)
+    },
+    'startup_welcome': {
+        'width': 600,
+        'height': 550,
+        'title': '🔐 Password Vault - Première utilisation',
+        'resizable': (False, False)
+    },
+    'startup_login': {
+        'width': 550,
+        'height': 560,
+        'title': '🔐 Password Vault - Connexion',
         'resizable': (False, False)
     }
 }

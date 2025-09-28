@@ -189,7 +189,6 @@ class PasswordManagerApp:
             except Exception as e:
                 print(f"Erreur création bouton : {e}")
     
-    # Toutes vos méthodes existantes restent identiques
     def _load_accounts(self):
         """Charger les comptes depuis la base de données"""
         try:
@@ -359,6 +358,8 @@ class PasswordManagerApp:
         """Mettre à jour le statut de recherche"""
         if hasattr(self, 'search_status_label'):
             self.search_status_label.configure(text=message)
+    
+    
     
     def run(self):
         """Lancer l'application"""
