@@ -31,8 +31,15 @@ class AddAccountDialog:
         self._setup_ui()
     
     def _create_dialog(self):
-        """Créer la fenêtre de dialogue"""
-        self.dialog = Toplevel(self.parent, bg=COLORS['primary_bg'], highlightthickness=0)
+        """Créer la fenêtre de dialogue moderne"""
+        from customtkinter import set_appearance_mode, set_default_color_theme
+        
+        # Mode sombre par défaut
+        set_appearance_mode("dark")
+        
+        self.dialog = Toplevel(self.parent)
+        self.dialog.configure(bg=COLORS['primary_bg'])
+        
         config = WINDOW_CONFIG['add_account']
         GeometryUtils.apply_window_config(self.dialog, config)
         
@@ -46,109 +53,62 @@ class AddAccountDialog:
         self._create_password_field()
         self._create_buttons()
     
-    def _create_site_field(self):
-        """Créer le champ site web"""
-        # Label
-        site_label = Label(
-            self.dialog,
-            text="Site Web",
-            fg=COLORS['text_secondary'],
-            bg=COLORS['primary_bg'],
-            font=('yu gothic ui', 13, 'bold')
+    def _setup_ui(self):
+        """Configurer l'interface moderne"""
+        from gui.widgets.custom_widgets import ModernCard, ModernLabel, ModernEntry, ModernButton
+        
+        # Card principale
+        main_card = ModernCard(self.dialog)
+        main_card.place(x=25, y=25, width=300, height=450)
+        
+        # Titre
+        title = ModernLabel(main_card, text="✨ Nouveau Compte", style="title")
+        title.place(x=20, y=20)
+        
+        # Site Web
+        ModernLabel(main_card, text="🌐 Site Web", style="subtitle").place(x=20, y=80)
+        self.site_entry = ModernEntry(main_card, placeholder_text="ex: google.com")
+        self.site_entry.place(x=20, y=110, width=260)
+        
+        # Username  
+        ModernLabel(main_card, text="👤 Nom d'utilisateur", style="subtitle").place(x=20, y=160)
+        self.login_entry = ModernEntry(main_card, placeholder_text="Votre nom d'utilisateur")
+        self.login_entry.place(x=20, y=190, width=260)
+        
+        # Password
+        ModernLabel(main_card, text="🔐 Mot de passe", style="subtitle").place(x=20, y=240)
+        self.password_entry = ModernEntry(main_card, placeholder_text="Mot de passe sécurisé", show="*")
+        self.password_entry.place(x=20, y=270, width=220)
+        
+        # Bouton générateur
+        gen_btn = ModernButton(
+            main_card,
+            text="🎲",
+            command=self._generate_password,
+            width=30,
+            height=35,
+            style="secondary"
         )
-        site_label.place(x=40, y=115)
+        gen_btn.place(x=250, y=270)
         
-        # Entry
-        self.site_entry = CustomEntry(self.dialog)
-        self.site_entry.place(x=70, y=149, width=200)
-        
-        # Ligne décorative
-        site_line = Canvas(
-            self.dialog,
-            width=270,
-            height=2.0,
-            bg=COLORS['line_color'],
-            highlightthickness=0
+        # Boutons d'action
+        save_btn = ModernButton(
+            main_card,
+            text="💾 Sauvegarder",
+            command=self._on_save,
+            style="success",
+            width=120
         )
-        site_line.place(x=38, y=174)
+        save_btn.place(x=20, y=380)
         
-        # Icône
-        self._add_icon("site_icon.png", x=40, y=145)
-    
-    def _create_login_field(self):
-        """Créer le champ nom d'utilisateur"""
-        # Label
-        login_label = Label(
-            self.dialog,
-            text="Username",
-            fg=COLORS['text_secondary'],
-            bg=COLORS['primary_bg'],
-            font=('yu gothic ui', 13, 'bold')
+        cancel_btn = ModernButton(
+            main_card,
+            text="❌ Annuler", 
+            command=self._on_back,
+            style="danger",
+            width=120
         )
-        login_label.place(x=40, y=195)
-        
-        # Entry
-        self.login_entry = CustomEntry(self.dialog)
-        self.login_entry.place(x=70, y=229, width=200)
-        
-        # Ligne décorative
-        login_line = Canvas(
-            self.dialog,
-            width=270,
-            height=2.0,
-            bg=COLORS['line_color'],
-            highlightthickness=0
-        )
-        login_line.place(x=40, y=255)
-        
-        # Icône
-        self._add_icon("login_icon.png", x=40, y=227)
-    
-    def _create_password_field(self):
-        """Créer le champ mot de passe"""
-        # Label
-        password_label = Label(
-            self.dialog,
-            text="Password",
-            fg=COLORS['text_secondary'],
-            bg=COLORS['primary_bg'],
-            font=('yu gothic ui', 13, 'bold')
-        )
-        password_label.place(x=40, y=275)
-        
-        # Entry
-        self.password_entry = CustomEntry(self.dialog)
-        self.password_entry.place(x=70, y=309, width=200)
-        
-        # Ligne décorative
-        password_line = Canvas(
-            self.dialog,
-            width=270,
-            height=2.0,
-            bg=COLORS['line_color'],
-            highlightthickness=0
-        )
-        password_line.place(x=40, y=336)
-        
-        # Icône
-        self._add_icon("pwd_icon.png", x=40, y=307)
-        
-        # Bouton générateur de mot de passe
-        try:
-            generate_icon = PhotoImage(file=IMAGES_DIR / "icon" / "generate_icon.png")
-            generate_btn = CTkButton(
-                self.dialog,
-                text='',
-                image=generate_icon,
-                command=self._generate_password,
-                width=24,
-                height=24,
-                fg_color=COLORS['primary_bg'],
-                hover_color=COLORS['primary_bg']
-            )
-            generate_btn.place(x=310, y=309)
-        except Exception as e:
-            print(f"Impossible de charger l'icône de génération : {e}")
+        cancel_btn.place(x=160, y=380)
     
     def _create_buttons(self):
         """Créer les boutons d'action"""

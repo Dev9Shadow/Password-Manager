@@ -48,16 +48,73 @@ WINDOW_CONFIG = {
 
 # Couleurs
 COLORS = {
-    'primary_bg': '#394054',
-    'secondary_bg': '#B0C0D4',
-    'tertiary_bg': '#E0E2E8',
-    'button_primary': '#004792',
-    'button_hover': '#3F7CAF',
-    'text_primary': '#CED0C3',
-    'text_secondary': '#040405',
-    'input_text': '#6B6A69',
-    'line_color': '#bdb9b1',
-    'accent': '#87CEEB'
+    # Thème sombre moderne avec gradients
+    'primary_bg': '#1a1a2e',           # Bleu très sombre
+    'secondary_bg': '#16213e',         # Bleu marine sombre  
+    'tertiary_bg': '#0f3460',         # Bleu accent
+    'card_bg': '#1e1e2f',             # Cartes/panels
+    'sidebar_bg': '#16213e',          # Barre latérale
+    
+    # Boutons avec effet glassmorphism
+    'button_primary': '#4facfe',       # Bleu électrique
+    'button_hover': '#00c9ff',         # Cyan vibrant
+    'button_secondary': '#667eea',     # Violet doux
+    'button_danger': '#ff6b6b',        # Rouge moderne
+    'button_success': '#51cf66',       # Vert moderne
+    
+    # Texte et éléments
+    'text_primary': '#ffffff',         # Blanc pur
+    'text_secondary': '#a8a8b3',       # Gris clair
+    'text_accent': '#4facfe',          # Bleu accent
+    'input_text': '#ffffff',           # Texte des inputs en blanc
+    'input_bg': '#1e1e2f',            # Fond des inputs
+    'input_border': '#4facfe',         # Bordure des inputs
+    
+    # Accents et effets
+    'accent_glow': '#00c9ff',          # Couleur de glow
+    'line_color': '#4facfe',           # Lignes décoratives
+    'shadow': 'rgba(0, 201, 255, 0.3)', # Ombre avec glow
+    
+    # Gradients (nouveaux)
+    'gradient_primary': ['#4facfe', '#00c9ff'],
+    'gradient_secondary': ['#667eea', '#764ba2'],
+    'gradient_bg': ['#1a1a2e', '#16213e', '#0f3460']
+}
+
+# Version sombre noir et blanc 
+
+# COLORS = {
+#     # Thème sombre moderne compatible CustomTkinter
+#     'primary_bg': '#212121',          # Gris très sombre
+#     'secondary_bg': '#2b2b2b',        # Gris sombre
+#     'tertiary_bg': '#333333',         # Gris moyen sombre
+#     'card_bg': '#3d3d3d',             # Gris pour les cartes
+    
+#     # Boutons modernes
+#     'button_primary': '#1f538d',      # Bleu CustomTkinter
+#     'button_hover': '#14375e',        # Bleu hover
+#     'button_secondary': '#565b5e',    # Gris pour boutons secondaires
+#     'button_danger': '#d32f2f',       # Rouge pour supprimer
+#     'button_success': '#388e3c',      # Vert pour succès
+    
+#     # Texte
+#     'text_primary': '#ffffff',        # Blanc
+#     'text_secondary': '#b0b0b0',      # Gris clair
+#     'text_accent': '#1f538d',         # Bleu accent
+#     'input_text': '#ffffff',
+#     'input_bg': '#3d3d3d',
+#     'input_border': '#1f538d',
+#     'line_color': '#1f538d',
+#     'accent': '#1f538d'
+# }
+
+VISUAL_EFFECTS = {
+    'border_radius': 15,
+    'shadow_blur': 10,
+    'glow_intensity': 0.3,
+    'animation_speed': 200,
+    'card_padding': 20,
+    'button_hover_scale': 1.05
 }
 
 # Messages

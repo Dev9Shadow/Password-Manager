@@ -3,9 +3,10 @@ Widgets personnalisés pour l'interface utilisateur
 """
 
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox, Toplevel, Label, Canvas
-from customtkinter import CTkButton
-from config.settings import COLORS, WINDOW_CONFIG
+from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel
+from config.settings import COLORS, WINDOW_CONFIG,VISUAL_EFFECTS
 from utils.geometry import GeometryUtils
 
 class MessageDialog:
@@ -128,6 +129,129 @@ class StyledButton(CTkButton):
         
         default_config.update(kwargs)
         super().__init__(parent, **default_config)
+
+class ModernCard(CTkFrame):
+    """Carte moderne avec effet glassmorphism"""
+    
+    def __init__(self, parent, width=200, height=100, **kwargs):
+        super().__init__(
+            parent,
+            width=width,
+            height=height,
+            fg_color=COLORS['card_bg'],
+            corner_radius=VISUAL_EFFECTS['border_radius'],
+            border_width=1,
+            border_color=COLORS['input_border'],
+            **kwargs
+        )
+
+class ModernButton(CTkButton):
+    """Bouton moderne avec effets hover"""
+    
+    def __init__(self, parent, style="primary", **kwargs):
+        styles = {
+            'primary': {
+                'fg_color': [COLORS['button_primary'], COLORS['button_hover']],
+                'hover_color': COLORS['button_hover'],
+                'border_color': COLORS['accent_glow']
+            },
+            'secondary': {
+                'fg_color': COLORS['button_secondary'],
+                'hover_color': COLORS['button_primary'],
+                'border_color': COLORS['button_secondary']
+            },
+            'danger': {
+                'fg_color': COLORS['button_danger'],
+                'hover_color': '#ff5252',
+                'border_color': COLORS['button_danger']
+            },
+            'success': {
+                'fg_color': COLORS['button_success'],
+                'hover_color': '#40c057',
+                'border_color': COLORS['button_success']
+            }
+        }
+        
+        style_config = styles.get(style, styles['primary'])
+        
+        default_config = {
+            'corner_radius': VISUAL_EFFECTS['border_radius'],
+            'border_width': 2,
+            'font': ('Segoe UI', 12, 'bold'),
+            'text_color': COLORS['text_primary'],
+            'height': 40,
+            **style_config
+        }
+        
+        default_config.update(kwargs)
+        super().__init__(parent, **default_config)
+
+class ModernEntry(CTkEntry):
+    """Entry moderne avec effet glow"""
+    
+    def __init__(self, parent, **kwargs):
+        default_config = {
+            'fg_color': COLORS['input_bg'],
+            'border_color': COLORS['input_border'],
+            'text_color': COLORS['input_text'],
+            'placeholder_text_color': COLORS['text_secondary'],
+            'corner_radius': 10,
+            'border_width': 2,
+            'font': ('Segoe UI', 11),
+            'height': 35
+        }
+        
+        default_config.update(kwargs)
+        super().__init__(parent, **default_config)
+
+class GradientFrame(tk.Frame):
+    """Frame avec fond dégradé"""
+    
+    def __init__(self, parent, colors=None, **kwargs):
+        self.colors = colors or COLORS['gradient_bg']
+        super().__init__(parent, **kwargs)
+        self.bind('<Configure>', self._on_configure)
+    
+    def _on_configure(self, event=None):
+        """Créer le dégradé lors du redimensionnement"""
+        self.create_gradient()
+    
+    def create_gradient(self):
+        """Créer l'effet de dégradé (simplifié pour tkinter)"""
+        self.config(bg=self.colors[0] if isinstance(self.colors, list) else self.colors)
+
+class ModernLabel(CTkLabel):
+    """Label moderne avec styles prédéfinis"""
+    
+    def __init__(self, parent, style="primary", **kwargs):
+        styles = {
+            'primary': {
+                'text_color': COLORS['text_primary'],
+                'font': ('Segoe UI', 11)
+            },
+            'secondary': {
+                'text_color': COLORS['text_secondary'],
+                'font': ('Segoe UI', 10)
+            },
+            'title': {
+                'text_color': COLORS['text_primary'],
+                'font': ('Segoe UI', 16, 'bold')
+            },
+            'subtitle': {
+                'text_color': COLORS['text_accent'],
+                'font': ('Segoe UI', 13, 'bold')
+            }
+        }
+        
+        style_config = styles.get(style, styles['primary'])
+        default_config = {
+            'fg_color': 'transparent',
+            **style_config
+        }
+        
+        default_config.update(kwargs)
+        super().__init__(parent, **default_config)
+
 
 def show_message(parent, title: str, message: str, msg_type: str = "info"):
     """
