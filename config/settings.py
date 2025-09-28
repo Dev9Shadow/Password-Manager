@@ -33,8 +33,8 @@ WINDOW_CONFIG = {
         'resizable': (False, False)
     },
     'settings': {
-        'width': 500,
-        'height': 500,
+        'width': 620,
+        'height': 600,
         'title': 'Settings',
         'resizable': (False, False)
     },

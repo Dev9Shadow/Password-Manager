@@ -286,7 +286,35 @@ class PasswordManagerApp:
 
     def _open_settings(self):
         """Ouvrir le dialogue des paramètres"""
-        print("Ouverture des paramètres")  # Placeholder
+        try:
+            from gui.dialogs.settings import SettingsDialog
+            dialog = SettingsDialog(self.root, self._on_settings_changed)
+            dialog.show()
+        except Exception as e:
+            print(f"Erreur lors de l'ouverture des paramètres : {e}")
+            show_error(self.root, "Erreur lors de l'ouverture des paramètres")
+
+    def _on_settings_changed(self, settings):
+        """Callback appelé quand les paramètres sont modifiés"""
+        try:
+            print(f"Paramètres modifiés : {settings}")
+            
+            # Ici vous pouvez appliquer les changements en temps réel
+            # Par exemple, changer le thème, etc.
+            
+            # Exemple d'application du thème
+            if settings.get('theme') == 'Clair':
+                # Appliquer le thème clair
+                pass
+            elif settings.get('theme') == 'Sombre':
+                # Appliquer le thème sombre (par défaut)
+                pass
+            
+            show_success(self.root, "Paramètres appliqués !")
+            
+        except Exception as e:
+            print(f"Erreur lors de l'application des paramètres : {e}")
+            show_error(self.root, "Erreur lors de l'application des paramètres")
 
     def _search_accounts(self):
         """Fonction de recherche"""
