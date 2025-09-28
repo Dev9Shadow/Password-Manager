@@ -68,7 +68,7 @@ class SearchAccountsDialog:
             text="Terme de recherche :",
             font=ctk.CTkFont(family="Segoe UI", size=14),
             text_color=COLORS['text_accent']
-        ).place(x=20, y=70)
+        ).place(x=20, y=60)
         
         self.search_entry = CTkEntry(
             main_card,
@@ -78,7 +78,7 @@ class SearchAccountsDialog:
             border_color=COLORS['input_border'],
             text_color=COLORS['input_text']
         )
-        self.search_entry.place(x=20, y=100)
+        self.search_entry.place(x=20, y=90)
         
         # Options de recherche
         CTkLabel(
@@ -86,11 +86,12 @@ class SearchAccountsDialog:
             text="Rechercher dans :",
             font=ctk.CTkFont(family="Segoe UI", size=14),
             text_color=COLORS['text_accent']
-        ).place(x=20, y=140)
+        ).place(x=20, y=130)
         
         # Boutons radio pour le type de recherche
         self.radio_var = tk.StringVar(value="all")
         
+        # Remplacer ces lignes (vers la ligne 100) :
         all_radio = ctk.CTkRadioButton(
             main_card,
             text="Tous les champs",
@@ -98,8 +99,8 @@ class SearchAccountsDialog:
             value="all",
             text_color=COLORS['text_primary']
         )
-        all_radio.place(x=20, y=170)
-        
+        all_radio.place(x=20, y=160)
+
         site_radio = ctk.CTkRadioButton(
             main_card,
             text="Site uniquement",
@@ -107,8 +108,8 @@ class SearchAccountsDialog:
             value="site",
             text_color=COLORS['text_primary']
         )
-        site_radio.place(x=150, y=170)
-        
+        site_radio.place(x=20, y=180)  # Changé de x=150, y=170
+
         login_radio = ctk.CTkRadioButton(
             main_card,
             text="Login uniquement",
@@ -116,7 +117,8 @@ class SearchAccountsDialog:
             value="login",
             text_color=COLORS['text_primary']
         )
-        login_radio.place(x=270, y=170)
+        login_radio.place(x=20, y=200)  # Changé de x=270, y=170
+
         
         # Boutons d'action
         search_btn = CTkButton(
@@ -127,7 +129,6 @@ class SearchAccountsDialog:
             hover_color=COLORS['button_hover'],
             width=100
         )
-        search_btn.place(x=20, y=210)
         
         clear_btn = CTkButton(
             main_card,
@@ -137,7 +138,6 @@ class SearchAccountsDialog:
             hover_color=COLORS['button_primary'],
             width=100
         )
-        clear_btn.place(x=130, y=210)
         
         cancel_btn = CTkButton(
             main_card,
@@ -147,7 +147,11 @@ class SearchAccountsDialog:
             hover_color="#ff5252",
             width=100
         )
-        cancel_btn.place(x=240, y=210)
+        
+        # Et décaler les boutons d'action plus bas :
+        search_btn.place(x=20, y=230)  # Changé de y=210
+        clear_btn.place(x=130, y=230)  # Changé de y=210
+        cancel_btn.place(x=240, y=230)  # Changé de y=210
     
     def _on_search(self):
         """Effectuer la recherche"""
