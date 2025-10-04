@@ -37,7 +37,6 @@ pip install -r requirements.txt
 * `cryptography` → Data encryption
 * `pyperclip` → Clipboard operations
 
-
 ## 📁 Project Structure
 
 <pre class="overflow-visible!" data-start="1319" data-end="2135"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>password_manager/
@@ -198,14 +197,6 @@ To add your own tests:
 3. **Commit** your changes
 4. **Push** the branch
 5. **Open** a Pull Request
-
----
-
-## 📜 License
-
-This project is licensed under the  **MIT License** .
-
-See the [LICENSE]() file for more details.
 
 ---
 
